@@ -1,0 +1,23 @@
+{
+  "name": "kava_plugin",
+  "dockerComposeFile": ["../docker-compose.yml"],
+  "service": "kava_plugin",
+  "workspaceFolder": "/app",
+  "shutdownAction": "stopCompose",
+  "extensions": [
+    "ms-python.python",
+    "ms-python.pylint",
+    "ms-pyright.pyright",
+    "naumovs.color-highlight",
+    "github.copilot",
+    "eamodio.gitlens"
+  ],
+  "settings": {
+    "editor.formatOnSave": true,
+    "python.linting.enabled": true,
+    "python.linting.pylintEnabled": false,
+    "python.linting.flake8Enabled": true,
+    "python.linting.lintOnSave": true,
+    "python.formatting.provider": "black"
+  }
+}
