@@ -17,7 +17,7 @@ if __name__ == "__main__":
     settings = SenkaSetting({})
     token_original_ids = TokenOriginalIdTable(TOKEN_ORIGINAL_IDS_URL)
     transactions = KavaTransactionGenerator.get_transactions(
-        settings, address, None, None
+        {"type": "address", "data": address}
     )
 
     for transaction in transactions:
