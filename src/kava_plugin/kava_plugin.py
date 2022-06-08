@@ -986,7 +986,9 @@ class KavaPlugin:
 
     @classmethod
     def _get_token_original_id(cls, value: Optional[str]) -> Optional[str]:
-        if value == "ukava" or value == "kava" or value == "":
+        if value == "ukava":
+            value = "kava"
+        elif value == "":
             value = None
         return value
 
