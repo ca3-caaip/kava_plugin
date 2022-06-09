@@ -87,7 +87,7 @@ class TestKavaPlugin(unittest.TestCase):
         assert caaj_deposit.type == "deposit"
         assert caaj_deposit.amount == "0.00118"
         assert caaj_deposit.token_symbol == "kava"
-        assert caaj_deposit.token_original_id is None
+        assert caaj_deposit.token_original_id == "kava"
         assert caaj_deposit.caaj_from == "kava1jv65s3grqf6v6jl3dp4t6c9t9rk99cd8m2splc"
         assert caaj_deposit.caaj_to == "kava_validator"
         assert caaj_deposit.comment == "staking 0.00118 kava"
@@ -104,7 +104,7 @@ class TestKavaPlugin(unittest.TestCase):
         assert caaj_reward.type == "get"
         assert caaj_reward.amount == "0.000039"
         assert caaj_reward.token_symbol == "kava"
-        assert caaj_reward.token_original_id is None
+        assert caaj_reward.token_original_id == "kava"
         assert caaj_reward.caaj_from == "kava_staking_reward"
         assert caaj_reward.caaj_to == "kava1jv65s3grqf6v6jl3dp4t6c9t9rk99cd8m2splc"
         assert caaj_reward.comment == "staking reward 0.000039 kava"
@@ -130,7 +130,7 @@ class TestKavaPlugin(unittest.TestCase):
         assert caaj_reward.type == "get"
         assert caaj_reward.amount == "3.687213"
         assert caaj_reward.token_symbol == "kava"
-        assert caaj_reward.token_original_id is None
+        assert caaj_reward.token_original_id == "kava"
         assert caaj_reward.caaj_from == "kava_staking_reward"
         assert caaj_reward.caaj_to == "kava1jv65s3grqf6v6jl3dp4t6c9t9rk99cd8m2splc"
         assert caaj_reward.comment == "staking reward 3.687213 kava"
@@ -178,7 +178,7 @@ class TestKavaPlugin(unittest.TestCase):
         assert caaj_reward.type == "get"
         assert caaj_reward.amount == "1.298035"
         assert caaj_reward.token_symbol == "kava"
-        assert caaj_reward.token_original_id is None
+        assert caaj_reward.token_original_id == "kava"
         assert caaj_reward.caaj_from == "kava_staking_reward"
         assert caaj_reward.caaj_to == "kava1jv65s3grqf6v6jl3dp4t6c9t9rk99cd8m2splc"
         assert caaj_reward.comment == "staking reward 1.298035 kava"
@@ -206,7 +206,7 @@ class TestKavaPlugin(unittest.TestCase):
         assert caaj_withdraw.type == "withdraw"
         assert caaj_withdraw.amount == "343.546602"
         assert caaj_withdraw.token_symbol == "kava"
-        assert caaj_withdraw.token_original_id is None
+        assert caaj_withdraw.token_original_id == "kava"
         assert caaj_withdraw.caaj_from == "kava_validator"
         assert caaj_withdraw.caaj_to == "kava1jv65s3grqf6v6jl3dp4t6c9t9rk99cd8m2splc"
         assert caaj_withdraw.comment == "unstaking 343.546602 kava"
@@ -223,7 +223,7 @@ class TestKavaPlugin(unittest.TestCase):
         assert caaj_reward.type == "get"
         assert caaj_reward.amount == "0.001703"
         assert caaj_reward.token_symbol == "kava"
-        assert caaj_reward.token_original_id is None
+        assert caaj_reward.token_original_id == "kava"
         assert caaj_reward.caaj_from == "kava_staking_reward"
         assert caaj_reward.caaj_to == "kava1jv65s3grqf6v6jl3dp4t6c9t9rk99cd8m2splc"
         assert caaj_reward.comment == "staking reward 0.001703 kava"
@@ -411,7 +411,7 @@ class TestKavaPlugin(unittest.TestCase):
         assert caaj_reward.type == "get"
         assert caaj_reward.amount == "3.746212"
         assert caaj_reward.token_symbol == "kava"
-        assert caaj_reward.token_original_id is None
+        assert caaj_reward.token_original_id == "kava"
         assert caaj_reward.caaj_from == "kava_cdp"
         assert caaj_reward.caaj_to == "kava1jv65s3grqf6v6jl3dp4t6c9t9rk99cd8m2splc"
         assert caaj_reward.comment == "cdp reward 3.746212 kava"
@@ -436,7 +436,7 @@ class TestKavaPlugin(unittest.TestCase):
         assert caaj_reward.type == "get"
         assert caaj_reward.amount == "0.293872"
         assert caaj_reward.token_symbol == "kava"
-        assert caaj_reward.token_original_id is None
+        assert caaj_reward.token_original_id == "kava"
         assert caaj_reward.caaj_from == "kava_cdp"
         assert caaj_reward.caaj_to == "kava1jv65s3grqf6v6jl3dp4t6c9t9rk99cd8m2splc"
         assert caaj_reward.comment == "cdp reward 0.293872 kava"
@@ -461,7 +461,7 @@ class TestKavaPlugin(unittest.TestCase):
         assert caaj_deposit.type == "deposit"
         assert caaj_deposit.amount == "1513.591717"
         assert caaj_deposit.token_symbol == "kava"
-        assert caaj_deposit.token_original_id is None
+        assert caaj_deposit.token_original_id == "kava"
         assert caaj_deposit.caaj_from == "kava1jv65s3grqf6v6jl3dp4t6c9t9rk99cd8m2splc"
         assert caaj_deposit.caaj_to == "hard_lending"
         assert caaj_deposit.comment == "hard deposit 1513.591717 kava"
@@ -940,7 +940,7 @@ class TestKavaPlugin(unittest.TestCase):
         assert caaj_send.type == "receive"
         assert caaj_send.amount == "13.5"
         assert caaj_send.token_symbol == "kava"
-        assert caaj_send.token_original_id is None
+        assert caaj_send.token_original_id == "kava"
         assert caaj_send.caaj_from == "kava1k760ypy9tzhp6l2rmg06sq4n74z0d3relc549c"
         assert caaj_send.caaj_to == "kava1nzq60hrphyr8anvkw6fv93mhafew7ez4tq9ahv"
         assert (
@@ -968,7 +968,7 @@ class TestKavaPlugin(unittest.TestCase):
         assert caaj_send.type == "send"
         assert caaj_send.amount == "2.17"
         assert caaj_send.token_symbol == "kava"
-        assert caaj_send.token_original_id is None
+        assert caaj_send.token_original_id == "kava"
         assert caaj_send.caaj_from == "kava1dlezgt8undlpvdp0esmzyvxzvc59gkd56vkmea"
         assert caaj_send.caaj_to == "kava1ys70jvnajkv88529ys6urjcyle3k2j9r24g6a7"
         assert (
@@ -1193,3 +1193,7 @@ class TestKavaPlugin(unittest.TestCase):
         with open(f"tests/data/{filename}.json", encoding="utf-8") as jsonfile_local:
             test_data = json.load(jsonfile_local)
         return test_data
+
+
+if __name__ == "__main__":
+    unittest.main()
