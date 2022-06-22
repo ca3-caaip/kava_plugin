@@ -1,7 +1,7 @@
 import sys
 
 import pandas as pd
-from senkalib.chain.kava.kava_transaction_generator import KavaTransactionGenerator
+from senkalib.platform.kava.kava_transaction_generator import KavaTransactionGenerator
 from senkalib.senka_setting import SenkaSetting
 from senkalib.token_original_id_table import TokenOriginalIdTable
 

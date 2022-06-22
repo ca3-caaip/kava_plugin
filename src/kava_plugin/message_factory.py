@@ -2,7 +2,7 @@ import json
 import logging
 from decimal import getcontext
 
-from senkalib.chain.kava.kava_transaction import KavaTransaction
+from senkalib.platform.kava.kava_transaction import KavaTransaction
 
 from kava_plugin.message import Message
 
@@ -24,7 +24,7 @@ class MessageFactory:
             raise e
         messages_events = (
             transaction["data"]["tx"]["value"]["msg"]
-            if kava_transaction.get_chain_version() < 9
+            if kava_transaction.get_platform_version() < 9
             else transaction["data"]["tx"]["body"]["messages"]
         )
         messages = []
