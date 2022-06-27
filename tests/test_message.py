@@ -1,7 +1,7 @@
 import json
 import unittest
 
-from senkalib.chain.kava.kava_transaction import KavaTransaction
+from senkalib.platform.kava.kava_transaction import KavaTransaction
 
 from kava_plugin.message_factory import MessageFactory
 
