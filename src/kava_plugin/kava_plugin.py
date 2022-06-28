@@ -192,9 +192,7 @@ class KavaPlugin:
             token_original_id = KavaPlugin._get_token_original_id(
                 result["staking_token"]
             )
-            symbol_uuid = token_table.get_symbol_uuid(
-                KavaPlugin.platform, token_original_id
-            )
+            uti = token_table.get_uti(KavaPlugin.platform, token_original_id)
 
             caajs.append(
                 CaajJournal(
@@ -206,12 +204,10 @@ class KavaPlugin:
                     trade_uuid,
                     "deposit",
                     result["staking_amount"],
-                    result["staking_token"],
-                    token_original_id,
-                    symbol_uuid,
+                    uti,
                     address,
                     "kava_validator",
-                    f'staking {result["staking_amount"]} {result["staking_token"]}',
+                    f'staking {result["staking_amount"]} {token_original_id}',
                 )
             )
         # try to find delegate reward
@@ -219,9 +215,7 @@ class KavaPlugin:
             token_original_id = KavaPlugin._get_token_original_id(
                 reward["reward_token"]
             )
-            symbol_uuid = token_table.get_symbol_uuid(
-                KavaPlugin.platform, token_original_id
-            )
+            uti = token_table.get_uti(KavaPlugin.platform, token_original_id)
             caajs.append(
                 CaajJournal(
                     transaction.get_timestamp(),
@@ -232,9 +226,7 @@ class KavaPlugin:
                     trade_uuid,
                     "get",
                     reward["reward_amount"],
-                    reward["reward_token"],
-                    token_original_id,
-                    symbol_uuid,
+                    uti,
                     "kava_staking_reward",
                     address,
                     f'staking reward {reward["reward_amount"]} {reward["reward_token"]}',
@@ -253,9 +245,7 @@ class KavaPlugin:
             token_original_id = KavaPlugin._get_token_original_id(
                 result["unbonding_token"]
             )
-            symbol_uuid = token_table.get_symbol_uuid(
-                KavaPlugin.platform, token_original_id
-            )
+            uti = token_table.get_uti(KavaPlugin.platform, token_original_id)
 
             caajs.append(
                 CaajJournal(
@@ -267,9 +257,7 @@ class KavaPlugin:
                     trade_uuid,
                     "withdraw",
                     result["unbonding_amount"],
-                    result["unbonding_token"],
-                    token_original_id,
-                    symbol_uuid,
+                    uti,
                     "kava_validator",
                     address,
                     f'unstaking {result["unbonding_amount"]} {result["unbonding_token"]}',
@@ -280,9 +268,7 @@ class KavaPlugin:
             token_original_id = KavaPlugin._get_token_original_id(
                 reward["reward_token"]
             )
-            symbol_uuid = token_table.get_symbol_uuid(
-                KavaPlugin.platform, token_original_id
-            )
+            uti = token_table.get_uti(KavaPlugin.platform, token_original_id)
             caajs.append(
                 CaajJournal(
                     transaction.get_timestamp(),
@@ -293,9 +279,7 @@ class KavaPlugin:
                     trade_uuid,
                     "get",
                     reward["reward_amount"],
-                    reward["reward_token"],
-                    token_original_id,
-                    symbol_uuid,
+                    uti,
                     "kava_staking_reward",
                     address,
                     f'staking reward {reward["reward_amount"]} {reward["reward_token"]}',
@@ -310,9 +294,7 @@ class KavaPlugin:
         caajs = []
 
         token_original_id = KavaPlugin._get_token_original_id(result["deposit_token"])
-        symbol_uuid = token_table.get_symbol_uuid(
-            KavaPlugin.platform, token_original_id
-        )
+        uti = token_table.get_uti(KavaPlugin.platform, token_original_id)
         caajs.append(
             CaajJournal(
                 transaction.get_timestamp(),
@@ -323,19 +305,15 @@ class KavaPlugin:
                 trade_uuid,
                 "deposit",
                 result["deposit_amount"],
-                result["deposit_token"],
-                token_original_id,
-                symbol_uuid,
+                uti,
                 address,
                 "kava_cdp",
-                f'cdp deposit {result["deposit_amount"]} {result["deposit_token"]}',
+                f'cdp deposit {result["deposit_amount"]} {token_original_id}',
             )
         )
 
         token_original_id = KavaPlugin._get_token_original_id(result["draw_token"])
-        symbol_uuid = token_table.get_symbol_uuid(
-            KavaPlugin.platform, token_original_id
-        )
+        uti = token_table.get_uti(KavaPlugin.platform, token_original_id)
         caajs.append(
             CaajJournal(
                 transaction.get_timestamp(),
@@ -346,12 +324,10 @@ class KavaPlugin:
                 trade_uuid,
                 "borrow",
                 result["draw_amount"],
-                result["draw_token"],
-                token_original_id,
-                symbol_uuid,
+                uti,
                 "kava_cdp",
                 address,
-                f'cdp draw {result["draw_amount"]} {result["draw_token"]}',
+                f'cdp draw {result["draw_amount"]} {token_original_id}',
             )
         )
         return caajs
@@ -363,9 +339,7 @@ class KavaPlugin:
         caajs = []
 
         token_original_id = KavaPlugin._get_token_original_id(result["draw_token"])
-        symbol_uuid = token_table.get_symbol_uuid(
-            KavaPlugin.platform, token_original_id
-        )
+        uti = token_table.get_uti(KavaPlugin.platform, token_original_id)
         caajs.append(
             CaajJournal(
                 transaction.get_timestamp(),
@@ -376,9 +350,7 @@ class KavaPlugin:
                 trade_uuid,
                 "borrow",
                 result["draw_amount"],
-                result["draw_token"],
-                token_original_id,
-                symbol_uuid,
+                uti,
                 address,
                 "kava_cdp",
                 f'cdp repay {result["draw_amount"]} {result["draw_token"]}',
@@ -394,9 +366,7 @@ class KavaPlugin:
         caajs = []
 
         token_original_id = KavaPlugin._get_token_original_id(result["repay_token"])
-        symbol_uuid = token_table.get_symbol_uuid(
-            KavaPlugin.platform, token_original_id
-        )
+        uti = token_table.get_uti(KavaPlugin.platform, token_original_id)
         caajs.append(
             CaajJournal(
                 transaction.get_timestamp(),
@@ -407,9 +377,7 @@ class KavaPlugin:
                 trade_uuid,
                 "repay",
                 result["repay_amount"],
-                result["repay_token"],
-                token_original_id,
-                symbol_uuid,
+                uti,
                 address,
                 "kava_cdp",
                 f'cdp repay {result["repay_amount"]} {result["repay_token"]}',
@@ -423,9 +391,7 @@ class KavaPlugin:
             token_original_id = KavaPlugin._get_token_original_id(
                 result["withdraw_token"]
             )
-            symbol_uuid = token_table.get_symbol_uuid(
-                KavaPlugin.platform, token_original_id
-            )
+            uti = token_table.get_uti(KavaPlugin.platform, token_original_id)
             caajs.append(
                 CaajJournal(
                     transaction.get_timestamp(),
@@ -436,9 +402,7 @@ class KavaPlugin:
                     trade_uuid,
                     "withdraw",
                     result["withdraw_amount"],
-                    result["withdraw_token"],
-                    token_original_id,
-                    symbol_uuid,
+                    uti,
                     "kava_cdp",
                     address,
                     f'cdp withdraw {result["withdraw_amount"]} {result["withdraw_token"]}',
@@ -453,9 +417,7 @@ class KavaPlugin:
         caajs = []
 
         token_original_id = KavaPlugin._get_token_original_id(result["deposit_token"])
-        symbol_uuid = token_table.get_symbol_uuid(
-            KavaPlugin.platform, token_original_id
-        )
+        uti = token_table.get_uti(KavaPlugin.platform, token_original_id)
         caajs.append(
             CaajJournal(
                 transaction.get_timestamp(),
@@ -466,9 +428,7 @@ class KavaPlugin:
                 trade_uuid,
                 "deposit",
                 result["deposit_amount"],
-                result["deposit_token"],
-                token_original_id,
-                symbol_uuid,
+                uti,
                 address,
                 "kava_cdp",
                 f'cdp deposit {result["deposit_amount"]} {result["deposit_token"]}',
@@ -484,9 +444,7 @@ class KavaPlugin:
         caajs = []
 
         token_original_id = KavaPlugin._get_token_original_id(result["withdraw_token"])
-        symbol_uuid = token_table.get_symbol_uuid(
-            KavaPlugin.platform, token_original_id
-        )
+        uti = token_table.get_uti(KavaPlugin.platform, token_original_id)
         caajs.append(
             CaajJournal(
                 transaction.get_timestamp(),
@@ -497,9 +455,7 @@ class KavaPlugin:
                 trade_uuid,
                 "withdraw",
                 result["withdraw_amount"],
-                result["withdraw_token"],
-                token_original_id,
-                symbol_uuid,
+                uti,
                 "kava_cdp",
                 address,
                 f'cdp withdraw {result["withdraw_amount"]} {result["withdraw_token"]}',
@@ -517,9 +473,7 @@ class KavaPlugin:
         token_original_id = KavaPlugin._get_token_original_id(
             result["rewards"][0]["reward_token"]
         )
-        symbol_uuid = token_table.get_symbol_uuid(
-            KavaPlugin.platform, token_original_id
-        )
+        uti = token_table.get_uti(KavaPlugin.platform, token_original_id)
         caajs.append(
             CaajJournal(
                 transaction.get_timestamp(),
@@ -530,9 +484,7 @@ class KavaPlugin:
                 trade_uuid,
                 "get",
                 result["rewards"][0]["reward_amount"],
-                result["rewards"][0]["reward_token"],
-                token_original_id,
-                symbol_uuid,
+                uti,
                 "kava_cdp",
                 address,
                 f'cdp reward {result["rewards"][0]["reward_amount"]} {result["rewards"][0]["reward_token"]}',
@@ -550,9 +502,7 @@ class KavaPlugin:
         token_original_id = KavaPlugin._get_token_original_id(
             result["hard_withdraw_token"]
         )
-        symbol_uuid = token_table.get_symbol_uuid(
-            KavaPlugin.platform, token_original_id
-        )
+        uti = token_table.get_uti(KavaPlugin.platform, token_original_id)
         caajs.append(
             CaajJournal(
                 transaction.get_timestamp(),
@@ -563,9 +513,7 @@ class KavaPlugin:
                 trade_uuid,
                 "withdraw",
                 result["hard_withdraw_amount"],
-                result["hard_withdraw_token"],
-                token_original_id,
-                symbol_uuid,
+                uti,
                 "hard_lending",
                 address,
                 f'hard withdraw {result["hard_withdraw_amount"]} {result["hard_withdraw_token"]}',
@@ -583,9 +531,7 @@ class KavaPlugin:
         token_original_id = KavaPlugin._get_token_original_id(
             result["hard_deposit_token"]
         )
-        symbol_uuid = token_table.get_symbol_uuid(
-            KavaPlugin.platform, token_original_id
-        )
+        uti = token_table.get_uti(KavaPlugin.platform, token_original_id)
         caajs.append(
             CaajJournal(
                 transaction.get_timestamp(),
@@ -596,9 +542,7 @@ class KavaPlugin:
                 trade_uuid,
                 "deposit",
                 result["hard_deposit_amount"],
-                result["hard_deposit_token"],
-                token_original_id,
-                symbol_uuid,
+                uti,
                 address,
                 "hard_lending",
                 f'hard deposit {result["hard_deposit_amount"]} {result["hard_deposit_token"]}',
@@ -616,9 +560,7 @@ class KavaPlugin:
         token_original_id = KavaPlugin._get_token_original_id(
             result["hard_borrow_token"]
         )
-        symbol_uuid = token_table.get_symbol_uuid(
-            KavaPlugin.platform, token_original_id
-        )
+        uti = token_table.get_uti(KavaPlugin.platform, token_original_id)
         caajs.append(
             CaajJournal(
                 transaction.get_timestamp(),
@@ -629,9 +571,7 @@ class KavaPlugin:
                 trade_uuid,
                 "borrow",
                 result["hard_borrow_amount"],
-                result["hard_borrow_token"],
-                token_original_id,
-                symbol_uuid,
+                uti,
                 "hard_lending",
                 address,
                 f'hard borrow {result["hard_borrow_amount"]} {result["hard_borrow_token"]}',
@@ -649,9 +589,7 @@ class KavaPlugin:
         token_original_id = KavaPlugin._get_token_original_id(
             result["hard_repay_token"]
         )
-        symbol_uuid = token_table.get_symbol_uuid(
-            KavaPlugin.platform, token_original_id
-        )
+        uti = token_table.get_uti(KavaPlugin.platform, token_original_id)
         caajs.append(
             CaajJournal(
                 transaction.get_timestamp(),
@@ -662,9 +600,7 @@ class KavaPlugin:
                 trade_uuid,
                 "repay",
                 result["hard_repay_amount"],
-                result["hard_repay_token"],
-                token_original_id,
-                symbol_uuid,
+                uti,
                 address,
                 "hard_lending",
                 f'hard repay {result["hard_repay_amount"]} {result["hard_repay_token"]}',
@@ -683,9 +619,7 @@ class KavaPlugin:
             token_original_id = KavaPlugin._get_token_original_id(
                 reward["reward_token"]
             )
-            symbol_uuid = token_table.get_symbol_uuid(
-                KavaPlugin.platform, token_original_id
-            )
+            uti = token_table.get_uti(KavaPlugin.platform, token_original_id)
             caajs.append(
                 CaajJournal(
                     transaction.get_timestamp(),
@@ -696,9 +630,7 @@ class KavaPlugin:
                     trade_uuid,
                     "get",
                     reward["reward_amount"],
-                    reward["reward_token"],
-                    token_original_id,
-                    symbol_uuid,
+                    uti,
                     "hard_lending",
                     address,
                     f'hard lending reward receive {reward["reward_amount"]} {reward["reward_token"]}',
@@ -714,9 +646,7 @@ class KavaPlugin:
         caajs = []
 
         token_original_id = KavaPlugin._get_token_original_id(result["input_token"])
-        symbol_uuid = token_table.get_symbol_uuid(
-            KavaPlugin.platform, token_original_id
-        )
+        uti = token_table.get_uti(KavaPlugin.platform, token_original_id)
         caajs.append(
             CaajJournal(
                 transaction.get_timestamp(),
@@ -727,9 +657,7 @@ class KavaPlugin:
                 trade_uuid,
                 "lose",
                 result["input_amount"],
-                result["input_token"],
-                token_original_id,
-                symbol_uuid,
+                uti,
                 address,
                 "kava_swap",
                 f'buy {result["output_amount"]} {result["output_token"]} sell {result["input_amount"]} {result["input_token"]}',
@@ -737,9 +665,7 @@ class KavaPlugin:
         )
 
         token_original_id = KavaPlugin._get_token_original_id(result["output_token"])
-        symbol_uuid = token_table.get_symbol_uuid(
-            KavaPlugin.platform, token_original_id
-        )
+        uti = token_table.get_uti(KavaPlugin.platform, token_original_id)
         caajs.append(
             CaajJournal(
                 transaction.get_timestamp(),
@@ -750,9 +676,7 @@ class KavaPlugin:
                 trade_uuid,
                 "get",
                 result["output_amount"],
-                result["output_token"],
-                token_original_id,
-                symbol_uuid,
+                uti,
                 "kava_swap",
                 address,
                 f'buy {result["output_amount"]} {result["output_token"]} sell {result["input_amount"]} {result["input_token"]}',
@@ -760,9 +684,7 @@ class KavaPlugin:
         )
 
         token_original_id = KavaPlugin._get_token_original_id(result["fee_token"])
-        symbol_uuid = token_table.get_symbol_uuid(
-            KavaPlugin.platform, token_original_id
-        )
+        uti = token_table.get_uti(KavaPlugin.platform, token_original_id)
         caajs.append(
             CaajJournal(
                 transaction.get_timestamp(),
@@ -773,9 +695,7 @@ class KavaPlugin:
                 trade_uuid,
                 "lose",
                 result["fee_amount"],
-                result["fee_token"],
-                token_original_id,
-                symbol_uuid,
+                uti,
                 address,
                 "kava_swap",
                 f'pay {result["fee_amount"]} {result["fee_token"]} as swap fee',
@@ -790,6 +710,7 @@ class KavaPlugin:
     ) -> list:
         caajs = []
 
+        uti = token_table.get_uti(KavaPlugin.platform, result["share_token"])
         caajs.append(
             CaajJournal(
                 transaction.get_timestamp(),
@@ -800,9 +721,7 @@ class KavaPlugin:
                 trade_uuid,
                 "get_bonds",
                 result["share_amount"],
-                result["share_token"],
-                result["share_token"],
-                None,
+                uti,
                 "kava_swap",
                 address,
                 f'kava swap receive {result["share_amount"]} {result["share_token"]}',
@@ -811,9 +730,7 @@ class KavaPlugin:
 
         for input in result["inputs"]:
             token_original_id = KavaPlugin._get_token_original_id(input["input_token"])
-            symbol_uuid = token_table.get_symbol_uuid(
-                KavaPlugin.platform, token_original_id
-            )
+            uti = token_table.get_uti(KavaPlugin.platform, token_original_id)
             caajs.append(
                 CaajJournal(
                     transaction.get_timestamp(),
@@ -824,9 +741,7 @@ class KavaPlugin:
                     trade_uuid,
                     "deposit",
                     input["input_amount"],
-                    input["input_token"],
-                    token_original_id,
-                    symbol_uuid,
+                    uti,
                     address,
                     "kava_swap",
                     f'kava swap send {input["input_amount"]} {input["input_token"]}',
@@ -841,6 +756,7 @@ class KavaPlugin:
     ) -> list:
         caajs = []
 
+        uti = token_table.get_uti(KavaPlugin.platform, result["share_token"])
         caajs.append(
             CaajJournal(
                 transaction.get_timestamp(),
@@ -851,9 +767,7 @@ class KavaPlugin:
                 trade_uuid,
                 "lose_bonds",
                 result["share_amount"],
-                result["share_token"],
-                result["share_token"],
-                None,
+                uti,
                 address,
                 "kava_swap",
                 f'kava swap send {result["share_amount"]} {result["share_token"]}',
@@ -864,9 +778,7 @@ class KavaPlugin:
             token_original_id = KavaPlugin._get_token_original_id(
                 output["output_token"]
             )
-            symbol_uuid = token_table.get_symbol_uuid(
-                KavaPlugin.platform, token_original_id
-            )
+            uti = token_table.get_uti(KavaPlugin.platform, token_original_id)
             caajs.append(
                 CaajJournal(
                     transaction.get_timestamp(),
@@ -877,9 +789,7 @@ class KavaPlugin:
                     trade_uuid,
                     "withdraw",
                     output["output_amount"],
-                    output["output_token"],
-                    token_original_id,
-                    symbol_uuid,
+                    uti,
                     "kava_swap",
                     address,
                     f'kava swap receive {output["output_amount"]} {output["output_token"]}',
@@ -898,9 +808,7 @@ class KavaPlugin:
             token_original_id = KavaPlugin._get_token_original_id(
                 reward["reward_token"]
             )
-            symbol_uuid = token_table.get_symbol_uuid(
-                KavaPlugin.platform, token_original_id
-            )
+            uti = token_table.get_uti(KavaPlugin.platform, token_original_id)
             caajs.append(
                 CaajJournal(
                     transaction.get_timestamp(),
@@ -911,9 +819,7 @@ class KavaPlugin:
                     trade_uuid,
                     "get",
                     reward["reward_amount"],
-                    reward["reward_token"],
-                    token_original_id,
-                    symbol_uuid,
+                    uti,
                     "kava_swap",
                     address,
                     f'kava swap reward receive {reward["reward_amount"]} {reward["reward_token"]}',
@@ -939,9 +845,7 @@ class KavaPlugin:
                 message = f'{sender} {caaj_type} {result["amount"]} {result["token"]} to {recipient}'
 
             token_original_id = KavaPlugin._get_token_original_id(result["token"])
-            symbol_uuid = token_table.get_symbol_uuid(
-                KavaPlugin.platform, token_original_id
-            )
+            uti = token_table.get_uti(KavaPlugin.platform, token_original_id)
             caajs.append(
                 CaajJournal(
                     transaction.get_timestamp(),
@@ -952,9 +856,7 @@ class KavaPlugin:
                     trade_uuid,
                     caaj_type,
                     result["amount"],
-                    result["token"],
-                    token_original_id,
-                    symbol_uuid,
+                    uti,
                     sender,
                     recipient,
                     message,
@@ -984,9 +886,7 @@ class KavaPlugin:
                 to_address = "kava_bc_atomic_swap"
 
             token_original_id = KavaPlugin._get_token_original_id(result["token"])
-            symbol_uuid = token_table.get_symbol_uuid(
-                KavaPlugin.platform, token_original_id
-            )
+            uti = token_table.get_uti(KavaPlugin.platform, token_original_id)
             caajs.append(
                 CaajJournal(
                     transaction.get_timestamp(),
@@ -997,9 +897,7 @@ class KavaPlugin:
                     trade_uuid,
                     caaj_type,
                     result["amount"],
-                    result["token"],
-                    token_original_id,
-                    symbol_uuid,
+                    uti,
                     from_address,
                     to_address,
                     message,
@@ -1039,9 +937,7 @@ class KavaPlugin:
                 trade_uuid,
                 "lose",
                 str(transaction.get_transaction_fee() / Decimal(MEGA)),
-                "kava",
-                None,
-                "265cf8a8-87de-4ee3-9ac0-292df9b8d52d",
+                "kava/kava",
                 address,
                 "fee",
                 "",

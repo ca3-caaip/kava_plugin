@@ -11,7 +11,7 @@ jobs:
       - uses: actions/setup-python@v2
         with:
           python-version: "3.9"
-      - run: curl -sSL https://install.python-poetry.org | python -
+      - run: curl -sSL https://install.python-poetry.org | python - --preview
       - run: export PATH="$PATH:$HOME/.poetry/bin"
       - uses: actions/cache@v2
         with:
