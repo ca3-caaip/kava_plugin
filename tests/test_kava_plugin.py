@@ -25,12 +25,33 @@ class TestKavaPlugin(unittest.TestCase):
             else:
                 return None
 
-        def mock_get_symbol_uuid(platform: str, token_original_id: str) -> str:
-            return "3a2570c5-15c4-2860-52a8-bff14f27a236"
+        def mock_get_uti(platform: str, token_original_id: str) -> str:
+            if token_original_id == "kava":
+                return "kava/kava"
+            elif token_original_id == "hard":
+                return "hard/kava"
+            elif token_original_id == "usdx":
+                return "usdx/kava"
+            elif token_original_id == "bnb":
+                return "bnb/kava"
+            elif token_original_id == "xrp":
+                return "xrp/kava"
+            elif token_original_id == "busd":
+                return "busd/kava"
+            elif token_original_id == "busd:usdx":
+                return "busd%3Ausdx/kava"
+            elif token_original_id == "swp:usdx":
+                return "swp%3Ausdx/kava"
+            elif token_original_id == "swp":
+                return "swp/kava"
+            else:
+                raise ValueError(
+                    f"unknown token_original_id is given: {token_original_id}"
+                )
 
         mock = MagicMock()
         mock.get_symbol.side_effect = mock_get_symbol
-        mock.get_symbol_uuid.side_effect = mock_get_symbol_uuid
+        mock.get_uti.side_effect = mock_get_uti
         return mock
 
     def test_transaction_fee(self):
@@ -55,8 +76,7 @@ class TestKavaPlugin(unittest.TestCase):
         )
         assert caaj_transaction_fee.type == "lose"
         assert caaj_transaction_fee.amount == "0.0001"
-        assert caaj_transaction_fee.token_symbol == "kava"
-        assert caaj_transaction_fee.token_original_id is None
+        assert caaj_transaction_fee.uti == "kava/kava"
         assert (
             caaj_transaction_fee.caaj_from
             == "kava1jv65s3grqf6v6jl3dp4t6c9t9rk99cd8m2splc"
@@ -86,8 +106,7 @@ class TestKavaPlugin(unittest.TestCase):
         )
         assert caaj_deposit.type == "deposit"
         assert caaj_deposit.amount == "0.00118"
-        assert caaj_deposit.token_symbol == "kava"
-        assert caaj_deposit.token_original_id == "kava"
+        assert caaj_deposit.uti == "kava/kava"
         assert caaj_deposit.caaj_from == "kava1jv65s3grqf6v6jl3dp4t6c9t9rk99cd8m2splc"
         assert caaj_deposit.caaj_to == "kava_validator"
         assert caaj_deposit.comment == "staking 0.00118 kava"
@@ -103,8 +122,7 @@ class TestKavaPlugin(unittest.TestCase):
         )
         assert caaj_reward.type == "get"
         assert caaj_reward.amount == "0.000039"
-        assert caaj_reward.token_symbol == "kava"
-        assert caaj_reward.token_original_id == "kava"
+        assert caaj_reward.uti == "kava/kava"
         assert caaj_reward.caaj_from == "kava_staking_reward"
         assert caaj_reward.caaj_to == "kava1jv65s3grqf6v6jl3dp4t6c9t9rk99cd8m2splc"
         assert caaj_reward.comment == "staking reward 0.000039 kava"
@@ -129,8 +147,7 @@ class TestKavaPlugin(unittest.TestCase):
         )
         assert caaj_reward.type == "get"
         assert caaj_reward.amount == "3.687213"
-        assert caaj_reward.token_symbol == "kava"
-        assert caaj_reward.token_original_id == "kava"
+        assert caaj_reward.uti == "kava/kava"
         assert caaj_reward.caaj_from == "kava_staking_reward"
         assert caaj_reward.caaj_to == "kava1jv65s3grqf6v6jl3dp4t6c9t9rk99cd8m2splc"
         assert caaj_reward.comment == "staking reward 3.687213 kava"
@@ -153,8 +170,7 @@ class TestKavaPlugin(unittest.TestCase):
         )
         assert caaj_reward.type == "get"
         assert caaj_reward.amount == "0.224049"
-        assert caaj_reward.token_symbol == "hard"
-        assert caaj_reward.token_original_id == "hard"
+        assert caaj_reward.uti == "hard/kava"
         assert caaj_reward.caaj_from == "kava_staking_reward"
         assert caaj_reward.caaj_to == "kava1jv65s3grqf6v6jl3dp4t6c9t9rk99cd8m2splc"
         assert caaj_reward.comment == "staking reward 0.224049 hard"
@@ -177,8 +193,7 @@ class TestKavaPlugin(unittest.TestCase):
         )
         assert caaj_reward.type == "get"
         assert caaj_reward.amount == "1.298035"
-        assert caaj_reward.token_symbol == "kava"
-        assert caaj_reward.token_original_id == "kava"
+        assert caaj_reward.uti == "kava/kava"
         assert caaj_reward.caaj_from == "kava_staking_reward"
         assert caaj_reward.caaj_to == "kava1jv65s3grqf6v6jl3dp4t6c9t9rk99cd8m2splc"
         assert caaj_reward.comment == "staking reward 1.298035 kava"
@@ -205,8 +220,7 @@ class TestKavaPlugin(unittest.TestCase):
         )
         assert caaj_withdraw.type == "withdraw"
         assert caaj_withdraw.amount == "343.546602"
-        assert caaj_withdraw.token_symbol == "kava"
-        assert caaj_withdraw.token_original_id == "kava"
+        assert caaj_withdraw.uti == "kava/kava"
         assert caaj_withdraw.caaj_from == "kava_validator"
         assert caaj_withdraw.caaj_to == "kava1jv65s3grqf6v6jl3dp4t6c9t9rk99cd8m2splc"
         assert caaj_withdraw.comment == "unstaking 343.546602 kava"
@@ -222,8 +236,7 @@ class TestKavaPlugin(unittest.TestCase):
         )
         assert caaj_reward.type == "get"
         assert caaj_reward.amount == "0.001703"
-        assert caaj_reward.token_symbol == "kava"
-        assert caaj_reward.token_original_id == "kava"
+        assert caaj_reward.uti == "kava/kava"
         assert caaj_reward.caaj_from == "kava_staking_reward"
         assert caaj_reward.caaj_to == "kava1jv65s3grqf6v6jl3dp4t6c9t9rk99cd8m2splc"
         assert caaj_reward.comment == "staking reward 0.001703 kava"
@@ -249,8 +262,7 @@ class TestKavaPlugin(unittest.TestCase):
         )
         assert caaj_deposit.type == "deposit"
         assert caaj_deposit.amount == "10093.653846"
-        assert caaj_deposit.token_symbol == "hard"
-        assert caaj_deposit.token_original_id == "hard"
+        assert caaj_deposit.uti == "hard/kava"
         assert caaj_deposit.caaj_from == "kava1jv65s3grqf6v6jl3dp4t6c9t9rk99cd8m2splc"
         assert caaj_deposit.caaj_to == "kava_cdp"
         assert caaj_deposit.comment == "cdp deposit 10093.653846 hard"
@@ -266,8 +278,7 @@ class TestKavaPlugin(unittest.TestCase):
         )
         assert caaj_borrow.type == "borrow"
         assert caaj_borrow.amount == "3500"
-        assert caaj_borrow.token_symbol == "usdx"
-        assert caaj_borrow.token_original_id == "usdx"
+        assert caaj_borrow.uti == "usdx/kava"
         assert caaj_borrow.caaj_from == "kava_cdp"
         assert caaj_borrow.caaj_to == "kava1jv65s3grqf6v6jl3dp4t6c9t9rk99cd8m2splc"
         assert caaj_borrow.comment == "cdp draw 3500 usdx"
@@ -291,8 +302,7 @@ class TestKavaPlugin(unittest.TestCase):
         )
         assert caaj_borrow.type == "borrow"
         assert caaj_borrow.amount == "300"
-        assert caaj_borrow.token_symbol == "usdx"
-        assert caaj_borrow.token_original_id == "usdx"
+        assert caaj_borrow.uti == "usdx/kava"
         assert caaj_borrow.caaj_from == "kava1jv65s3grqf6v6jl3dp4t6c9t9rk99cd8m2splc"
         assert caaj_borrow.caaj_to == "kava_cdp"
         assert caaj_borrow.comment == "cdp repay 300 usdx"
@@ -318,8 +328,7 @@ class TestKavaPlugin(unittest.TestCase):
         )
         assert caaj_repay.type == "repay"
         assert caaj_repay.amount == "10.050333"
-        assert caaj_repay.token_symbol == "usdx"
-        assert caaj_repay.token_original_id == "usdx"
+        assert caaj_repay.uti == "usdx/kava"
         assert caaj_repay.caaj_from == "kava1jv65s3grqf6v6jl3dp4t6c9t9rk99cd8m2splc"
         assert caaj_repay.caaj_to == "kava_cdp"
         assert caaj_repay.comment == "cdp repay 10.050333 usdx"
@@ -335,8 +344,7 @@ class TestKavaPlugin(unittest.TestCase):
         )
         assert caaj_withdraw.type == "withdraw"
         assert caaj_withdraw.amount == "0.36428994"
-        assert caaj_withdraw.token_symbol == "bnb"
-        assert caaj_withdraw.token_original_id == "bnb"
+        assert caaj_withdraw.uti == "bnb/kava"
         assert caaj_withdraw.caaj_from == "kava_cdp"
         assert caaj_withdraw.caaj_to == "kava1jv65s3grqf6v6jl3dp4t6c9t9rk99cd8m2splc"
         assert caaj_withdraw.comment == "cdp withdraw 0.36428994 bnb"
@@ -360,8 +368,7 @@ class TestKavaPlugin(unittest.TestCase):
         )
         assert caaj_deposit.type == "deposit"
         assert caaj_deposit.amount == "5063.76309394"
-        assert caaj_deposit.token_symbol == "xrp"
-        assert caaj_deposit.token_original_id == "xrp"
+        assert caaj_deposit.uti == "xrp/kava"
         assert caaj_deposit.caaj_from == "kava1jv65s3grqf6v6jl3dp4t6c9t9rk99cd8m2splc"
         assert caaj_deposit.caaj_to == "kava_cdp"
         assert caaj_deposit.comment == "cdp deposit 5063.76309394 xrp"
@@ -385,8 +392,7 @@ class TestKavaPlugin(unittest.TestCase):
         )
         assert caaj_withdraw.type == "withdraw"
         assert caaj_withdraw.amount == "1"
-        assert caaj_withdraw.token_symbol == "bnb"
-        assert caaj_withdraw.token_original_id == "bnb"
+        assert caaj_withdraw.uti == "bnb/kava"
         assert caaj_withdraw.caaj_from == "kava_cdp"
         assert caaj_withdraw.caaj_to == "kava1jv65s3grqf6v6jl3dp4t6c9t9rk99cd8m2splc"
         assert caaj_withdraw.comment == "cdp withdraw 1 bnb"
@@ -410,8 +416,7 @@ class TestKavaPlugin(unittest.TestCase):
         )
         assert caaj_reward.type == "get"
         assert caaj_reward.amount == "3.746212"
-        assert caaj_reward.token_symbol == "kava"
-        assert caaj_reward.token_original_id == "kava"
+        assert caaj_reward.uti == "kava/kava"
         assert caaj_reward.caaj_from == "kava_cdp"
         assert caaj_reward.caaj_to == "kava1jv65s3grqf6v6jl3dp4t6c9t9rk99cd8m2splc"
         assert caaj_reward.comment == "cdp reward 3.746212 kava"
@@ -435,8 +440,7 @@ class TestKavaPlugin(unittest.TestCase):
         )
         assert caaj_reward.type == "get"
         assert caaj_reward.amount == "0.293872"
-        assert caaj_reward.token_symbol == "kava"
-        assert caaj_reward.token_original_id == "kava"
+        assert caaj_reward.uti == "kava/kava"
         assert caaj_reward.caaj_from == "kava_cdp"
         assert caaj_reward.caaj_to == "kava1jv65s3grqf6v6jl3dp4t6c9t9rk99cd8m2splc"
         assert caaj_reward.comment == "cdp reward 0.293872 kava"
@@ -460,8 +464,7 @@ class TestKavaPlugin(unittest.TestCase):
         )
         assert caaj_deposit.type == "deposit"
         assert caaj_deposit.amount == "1513.591717"
-        assert caaj_deposit.token_symbol == "kava"
-        assert caaj_deposit.token_original_id == "kava"
+        assert caaj_deposit.uti == "kava/kava"
         assert caaj_deposit.caaj_from == "kava1jv65s3grqf6v6jl3dp4t6c9t9rk99cd8m2splc"
         assert caaj_deposit.caaj_to == "hard_lending"
         assert caaj_deposit.comment == "hard deposit 1513.591717 kava"
@@ -485,8 +488,7 @@ class TestKavaPlugin(unittest.TestCase):
         )
         assert caaj_deposit.type == "deposit"
         assert caaj_deposit.amount == "3610.692343"
-        assert caaj_deposit.token_symbol == "usdx"
-        assert caaj_deposit.token_original_id == "usdx"
+        assert caaj_deposit.uti == "usdx/kava"
         assert caaj_deposit.caaj_from == "kava1jv65s3grqf6v6jl3dp4t6c9t9rk99cd8m2splc"
         assert caaj_deposit.caaj_to == "hard_lending"
         assert caaj_deposit.comment == "hard deposit 3610.692343 usdx"
@@ -510,8 +512,7 @@ class TestKavaPlugin(unittest.TestCase):
         )
         assert caaj_withdraw.type == "withdraw"
         assert caaj_withdraw.amount == "1000"
-        assert caaj_withdraw.token_symbol == "usdx"
-        assert caaj_withdraw.token_original_id == "usdx"
+        assert caaj_withdraw.uti == "usdx/kava"
         assert caaj_withdraw.caaj_from == "hard_lending"
         assert caaj_withdraw.caaj_to == "kava1jv65s3grqf6v6jl3dp4t6c9t9rk99cd8m2splc"
         assert caaj_withdraw.comment == "hard withdraw 1000 usdx"
@@ -535,8 +536,7 @@ class TestKavaPlugin(unittest.TestCase):
         )
         assert caaj_withdraw.type == "withdraw"
         assert caaj_withdraw.amount == "292.13977637"
-        assert caaj_withdraw.token_symbol == "bnb"
-        assert caaj_withdraw.token_original_id == "bnb"
+        assert caaj_withdraw.uti == "bnb/kava"
         assert caaj_withdraw.caaj_from == "hard_lending"
         assert caaj_withdraw.caaj_to == "kava1jv65s3grqf6v6jl3dp4t6c9t9rk99cd8m2splc"
         assert caaj_withdraw.comment == "hard withdraw 292.13977637 bnb"
@@ -560,8 +560,7 @@ class TestKavaPlugin(unittest.TestCase):
         )
         assert caaj_borrow.type == "borrow"
         assert caaj_borrow.amount == "2637.78595858"
-        assert caaj_borrow.token_symbol == "busd"
-        assert caaj_borrow.token_original_id == "busd"
+        assert caaj_borrow.uti == "busd/kava"
         assert caaj_borrow.caaj_from == "hard_lending"
         assert caaj_borrow.caaj_to == "kava1jv65s3grqf6v6jl3dp4t6c9t9rk99cd8m2splc"
         assert caaj_borrow.comment == "hard borrow 2637.78595858 busd"
@@ -585,8 +584,7 @@ class TestKavaPlugin(unittest.TestCase):
         )
         assert caaj_repay.type == "repay"
         assert caaj_repay.amount == "1956.12007376"
-        assert caaj_repay.token_symbol == "busd"
-        assert caaj_repay.token_original_id == "busd"
+        assert caaj_repay.uti == "busd/kava"
         assert caaj_repay.caaj_from == "kava1jv65s3grqf6v6jl3dp4t6c9t9rk99cd8m2splc"
         assert caaj_repay.caaj_to == "hard_lending"
         assert caaj_repay.comment == "hard repay 1956.12007376 busd"
@@ -610,8 +608,7 @@ class TestKavaPlugin(unittest.TestCase):
         )
         assert caaj_reward.type == "get"
         assert caaj_reward.amount == "14.418679"
-        assert caaj_reward.token_symbol == "hard"
-        assert caaj_reward.token_original_id == "hard"
+        assert caaj_reward.uti == "hard/kava"
         assert caaj_reward.caaj_from == "hard_lending"
         assert caaj_reward.caaj_to == "kava1jv65s3grqf6v6jl3dp4t6c9t9rk99cd8m2splc"
         assert caaj_reward.comment == "hard lending reward receive 14.418679 hard"
@@ -635,8 +632,7 @@ class TestKavaPlugin(unittest.TestCase):
         )
         assert caaj_reward.type == "get"
         assert caaj_reward.amount == "23.99439"
-        assert caaj_reward.token_symbol == "hard"
-        assert caaj_reward.token_original_id == "hard"
+        assert caaj_reward.uti == "hard/kava"
         assert caaj_reward.caaj_from == "hard_lending"
         assert caaj_reward.caaj_to == "kava1jv65s3grqf6v6jl3dp4t6c9t9rk99cd8m2splc"
         assert caaj_reward.comment == "hard lending reward receive 23.99439 hard"
@@ -664,8 +660,7 @@ class TestKavaPlugin(unittest.TestCase):
         )
         assert caaj_swap_input.type == "lose"
         assert caaj_swap_input.amount == "0.03"
-        assert caaj_swap_input.token_symbol == "bnb"
-        assert caaj_swap_input.token_original_id == "bnb"
+        assert caaj_swap_input.uti == "bnb/kava"
         assert (
             caaj_swap_input.caaj_from == "kava1mdm5595gw7n2yrfa6fjdrk2xwzn4njkj2akvq4"
         )
@@ -683,8 +678,7 @@ class TestKavaPlugin(unittest.TestCase):
         )
         assert caaj_swap_output.type == "get"
         assert caaj_swap_output.amount == "12.290319"
-        assert caaj_swap_output.token_symbol == "usdx"
-        assert caaj_swap_output.token_original_id == "usdx"
+        assert caaj_swap_output.uti == "usdx/kava"
         assert caaj_swap_output.caaj_from == "kava_swap"
         assert caaj_swap_output.caaj_to == "kava1mdm5595gw7n2yrfa6fjdrk2xwzn4njkj2akvq4"
         assert caaj_swap_output.comment == "buy 12.290319 usdx sell 0.03 bnb"
@@ -700,8 +694,7 @@ class TestKavaPlugin(unittest.TestCase):
         )
         assert caaj_swap_fee.type == "lose"
         assert caaj_swap_fee.amount == "0.000045"
-        assert caaj_swap_fee.token_symbol == "bnb"
-        assert caaj_swap_fee.token_original_id == "bnb"
+        assert caaj_swap_fee.uti == "bnb/kava"
         assert caaj_swap_fee.caaj_from == "kava1mdm5595gw7n2yrfa6fjdrk2xwzn4njkj2akvq4"
         assert caaj_swap_fee.caaj_to == "kava_swap"
         assert caaj_swap_fee.comment == "pay 0.000045 bnb as swap fee"
@@ -728,8 +721,7 @@ class TestKavaPlugin(unittest.TestCase):
         )
         assert caaj_swap_input.type == "lose"
         assert caaj_swap_input.amount == "13987.92220598"
-        assert caaj_swap_input.token_symbol == "busd"
-        assert caaj_swap_input.token_original_id == "busd"
+        assert caaj_swap_input.uti == "busd/kava"
         assert (
             caaj_swap_input.caaj_from == "kava1tnxjszq48g2k737920cchjqwccrqav053c26l0"
         )
@@ -747,8 +739,7 @@ class TestKavaPlugin(unittest.TestCase):
         )
         assert caaj_swap_output.type == "get"
         assert caaj_swap_output.amount == "14238.68"
-        assert caaj_swap_output.token_symbol == "usdx"
-        assert caaj_swap_output.token_original_id == "usdx"
+        assert caaj_swap_output.uti == "usdx/kava"
         assert caaj_swap_output.caaj_from == "kava_swap"
         assert caaj_swap_output.caaj_to == "kava1tnxjszq48g2k737920cchjqwccrqav053c26l0"
         assert caaj_swap_output.comment == "buy 14238.68 usdx sell 13987.92220598 busd"
@@ -764,8 +755,7 @@ class TestKavaPlugin(unittest.TestCase):
         )
         assert caaj_swap_fee.type == "lose"
         assert caaj_swap_fee.amount == "20.98188331"
-        assert caaj_swap_fee.token_symbol == "busd"
-        assert caaj_swap_fee.token_original_id == "busd"
+        assert caaj_swap_fee.uti == "busd/kava"
         assert caaj_swap_fee.caaj_from == "kava1tnxjszq48g2k737920cchjqwccrqav053c26l0"
         assert caaj_swap_fee.caaj_to == "kava_swap"
         assert caaj_swap_fee.comment == "pay 20.98188331 busd as swap fee"
@@ -792,8 +782,7 @@ class TestKavaPlugin(unittest.TestCase):
         )
         assert caaj_get_bonds.type == "get_bonds"
         assert caaj_get_bonds.amount == "19155352120"
-        assert caaj_get_bonds.token_symbol == "busd:usdx"
-        assert caaj_get_bonds.token_original_id == "busd:usdx"
+        assert caaj_get_bonds.uti == "busd%3Ausdx/kava"
         assert caaj_get_bonds.caaj_from == "kava_swap"
         assert caaj_get_bonds.caaj_to == "kava1jv65s3grqf6v6jl3dp4t6c9t9rk99cd8m2splc"
         assert caaj_get_bonds.comment == "kava swap receive 19155352120 busd:usdx"
@@ -809,8 +798,7 @@ class TestKavaPlugin(unittest.TestCase):
         )
         assert caaj_deposit.type == "deposit"
         assert caaj_deposit.amount == "1914.40274498"
-        assert caaj_deposit.token_symbol == "busd"
-        assert caaj_deposit.token_original_id == "busd"
+        assert caaj_deposit.uti == "busd/kava"
         assert caaj_deposit.caaj_from == "kava1jv65s3grqf6v6jl3dp4t6c9t9rk99cd8m2splc"
         assert caaj_deposit.caaj_to == "kava_swap"
         assert caaj_deposit.comment == "kava swap send 1914.40274498 busd"
@@ -826,8 +814,7 @@ class TestKavaPlugin(unittest.TestCase):
         )
         assert caaj_deposit.type == "deposit"
         assert caaj_deposit.amount == "1918.51883"
-        assert caaj_deposit.token_symbol == "usdx"
-        assert caaj_deposit.token_original_id == "usdx"
+        assert caaj_deposit.uti == "usdx/kava"
         assert caaj_deposit.caaj_from == "kava1jv65s3grqf6v6jl3dp4t6c9t9rk99cd8m2splc"
         assert caaj_deposit.caaj_to == "kava_swap"
         assert caaj_deposit.comment == "kava swap send 1918.51883 usdx"
@@ -854,8 +841,7 @@ class TestKavaPlugin(unittest.TestCase):
         )
         assert caaj_get_bonds.type == "lose_bonds"
         assert caaj_get_bonds.amount == "655345546"
-        assert caaj_get_bonds.token_symbol == "swp:usdx"
-        assert caaj_get_bonds.token_original_id == "swp:usdx"
+        assert caaj_get_bonds.uti == "swp%3Ausdx/kava"
         assert caaj_get_bonds.caaj_from == "kava1jv65s3grqf6v6jl3dp4t6c9t9rk99cd8m2splc"
         assert caaj_get_bonds.caaj_to == "kava_swap"
         assert caaj_get_bonds.comment == "kava swap send 655345546 swp:usdx"
@@ -871,8 +857,7 @@ class TestKavaPlugin(unittest.TestCase):
         )
         assert caaj_withdraw.type == "withdraw"
         assert caaj_withdraw.amount == "510.54504"
-        assert caaj_withdraw.token_symbol == "swp"
-        assert caaj_withdraw.token_original_id == "swp"
+        assert caaj_withdraw.uti == "swp/kava"
         assert caaj_withdraw.caaj_from == "kava_swap"
         assert caaj_withdraw.caaj_to == "kava1jv65s3grqf6v6jl3dp4t6c9t9rk99cd8m2splc"
         assert caaj_withdraw.comment == "kava swap receive 510.54504 swp"
@@ -888,8 +873,7 @@ class TestKavaPlugin(unittest.TestCase):
         )
         assert caaj_withdraw.type == "withdraw"
         assert caaj_withdraw.amount == "844.628983"
-        assert caaj_withdraw.token_symbol == "usdx"
-        assert caaj_withdraw.token_original_id == "usdx"
+        assert caaj_withdraw.uti == "usdx/kava"
         assert caaj_withdraw.caaj_from == "kava_swap"
         assert caaj_withdraw.caaj_to == "kava1jv65s3grqf6v6jl3dp4t6c9t9rk99cd8m2splc"
         assert caaj_withdraw.comment == "kava swap receive 844.628983 usdx"
@@ -913,8 +897,7 @@ class TestKavaPlugin(unittest.TestCase):
         )
         assert caaj_reward.type == "get"
         assert caaj_reward.amount == "830.379251"
-        assert caaj_reward.token_symbol == "swp"
-        assert caaj_reward.token_original_id == "swp"
+        assert caaj_reward.uti == "swp/kava"
         assert caaj_reward.caaj_from == "kava_swap"
         assert caaj_reward.caaj_to == "kava1jv65s3grqf6v6jl3dp4t6c9t9rk99cd8m2splc"
         assert caaj_reward.comment == "kava swap reward receive 830.379251 swp"
@@ -939,8 +922,7 @@ class TestKavaPlugin(unittest.TestCase):
         )
         assert caaj_send.type == "receive"
         assert caaj_send.amount == "13.5"
-        assert caaj_send.token_symbol == "kava"
-        assert caaj_send.token_original_id == "kava"
+        assert caaj_send.uti == "kava/kava"
         assert caaj_send.caaj_from == "kava1k760ypy9tzhp6l2rmg06sq4n74z0d3relc549c"
         assert caaj_send.caaj_to == "kava1nzq60hrphyr8anvkw6fv93mhafew7ez4tq9ahv"
         assert (
@@ -967,8 +949,7 @@ class TestKavaPlugin(unittest.TestCase):
         )
         assert caaj_send.type == "send"
         assert caaj_send.amount == "2.17"
-        assert caaj_send.token_symbol == "kava"
-        assert caaj_send.token_original_id == "kava"
+        assert caaj_send.uti == "kava/kava"
         assert caaj_send.caaj_from == "kava1dlezgt8undlpvdp0esmzyvxzvc59gkd56vkmea"
         assert caaj_send.caaj_to == "kava1ys70jvnajkv88529ys6urjcyle3k2j9r24g6a7"
         assert (
@@ -996,8 +977,7 @@ class TestKavaPlugin(unittest.TestCase):
         )
         assert caaj_create_atomic_swap.type == "receive"
         assert caaj_create_atomic_swap.amount == "0.1995"
-        assert caaj_create_atomic_swap.token_symbol == "bnb"
-        assert caaj_create_atomic_swap.token_original_id == "bnb"
+        assert caaj_create_atomic_swap.uti == "bnb/kava"
         assert caaj_create_atomic_swap.caaj_from == "kava_bc_atomic_swap"
         assert (
             caaj_create_atomic_swap.caaj_to
@@ -1027,8 +1007,7 @@ class TestKavaPlugin(unittest.TestCase):
         )
         assert caaj_create_atomic_swap.type == "send"
         assert caaj_create_atomic_swap.amount == "1.33428994"
-        assert caaj_create_atomic_swap.token_symbol == "bnb"
-        assert caaj_create_atomic_swap.token_original_id == "bnb"
+        assert caaj_create_atomic_swap.uti == "bnb/kava"
         assert (
             caaj_create_atomic_swap.caaj_from
             == "kava1mdm5595gw7n2yrfa6fjdrk2xwzn4njkj2akvq4"
@@ -1058,8 +1037,7 @@ class TestKavaPlugin(unittest.TestCase):
         )
         assert caaj_create_atomic_swap.type == "send"
         assert caaj_create_atomic_swap.amount == "310113.74719552"
-        assert caaj_create_atomic_swap.token_symbol == "busd"
-        assert caaj_create_atomic_swap.token_original_id == "busd"
+        assert caaj_create_atomic_swap.uti == "busd/kava"
         assert (
             caaj_create_atomic_swap.caaj_from
             == "kava1af7lm2qv9zp526gjd3cdxrpr9zeangjlyhjqjx"
@@ -1089,8 +1067,7 @@ class TestKavaPlugin(unittest.TestCase):
         )
         assert caaj_create_atomic_swap.type == "receive"
         assert caaj_create_atomic_swap.amount == "99.889"
-        assert caaj_create_atomic_swap.token_symbol == "xrp"
-        assert caaj_create_atomic_swap.token_original_id == "xrp"
+        assert caaj_create_atomic_swap.uti == "xrp/kava"
         assert caaj_create_atomic_swap.caaj_from == "kava_bc_atomic_swap"
         assert (
             caaj_create_atomic_swap.caaj_to
@@ -1120,8 +1097,7 @@ class TestKavaPlugin(unittest.TestCase):
         )
         assert caaj_create_atomic_swap.type == "send"
         assert caaj_create_atomic_swap.amount == "500"
-        assert caaj_create_atomic_swap.token_symbol == "bnb"
-        assert caaj_create_atomic_swap.token_original_id == "bnb"
+        assert caaj_create_atomic_swap.uti == "bnb/kava"
         assert (
             caaj_create_atomic_swap.caaj_from
             == "kava1eyugkwc74zejgwdwl7mvm7pad4hzdnka4wmdmu"
@@ -1151,8 +1127,7 @@ class TestKavaPlugin(unittest.TestCase):
         )
         assert caaj_transaction_fee.type == "lose"
         assert caaj_transaction_fee.amount == "0.00075"
-        assert caaj_transaction_fee.token_symbol == "kava"
-        assert caaj_transaction_fee.token_original_id is None
+        assert caaj_transaction_fee.uti == "kava/kava"
         assert (
             caaj_transaction_fee.caaj_from
             == "kava179ahnk902wgm7qzr66t5ga0a8euc28ce703jy3"
@@ -1179,8 +1154,7 @@ class TestKavaPlugin(unittest.TestCase):
         )
         assert caaj_transaction_fee.type == "lose"
         assert caaj_transaction_fee.amount == "0.01"
-        assert caaj_transaction_fee.token_symbol == "kava"
-        assert caaj_transaction_fee.token_original_id is None
+        assert caaj_transaction_fee.uti == "kava/kava"
         assert (
             caaj_transaction_fee.caaj_from
             == "kava179ahnk902wgm7qzr66t5ga0a8euc28ce703jy3"
