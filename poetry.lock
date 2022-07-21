@@ -839,8 +839,8 @@ web3 = "^5.29.0"
 [package.source]
 type = "git"
 url = 'https://github.com/yuma300/senkalib.git'
-reference = '0eb3c92ae6593ce8175f48c5cee099539be84f52'
-resolved_reference = "0eb3c92ae6593ce8175f48c5cee099539be84f52"
+reference = '2e99114df3b50b633622cf8aa170fda0cf4f6917'
+resolved_reference = "2e99114df3b50b633622cf8aa170fda0cf4f6917"
 
 [[package]]
 name = "setuptools"
@@ -988,7 +988,7 @@ multidict = ">=4.0"
 [metadata]
 lock-version = "1.1"
 python-versions = "^3.9"
-content-hash = "8a621857fd241fe9ba396fc252404b09f88dc77b05fa116cf6447407fe7e60c5"
+content-hash = "c5dc1d7b896080859397052e03c9d476a01de0b197707432c3c11c2bd636e8f7"
 
 [metadata.files]
 aiohttp = [
